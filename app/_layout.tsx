@@ -22,6 +22,9 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
+         <Stack.Screen name='meditation/[id]' options={{ headerShown:false,
+         animation:"slide_from_bottom"
+         }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>

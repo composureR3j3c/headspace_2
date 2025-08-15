@@ -17,6 +17,7 @@ export default function TabLayout() {
   return (
     <Stack>
       <Stack.Screen name='index' options={{ title: 'Meditations' }} />
+      
     </Stack>
   );
 }
