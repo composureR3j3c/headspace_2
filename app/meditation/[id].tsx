@@ -1,15 +1,15 @@
-import { Pressable, Text, View } from "react-native";
 import { meditations } from '@/app/data';
-import { MeditationListItem } from "@/app/components/MeditationListItem";
-import { Link, router, useLocalSearchParams } from "expo-router";
+import audio from '@/assets/meditations/audio1.mp3';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import audio from '@assets/meditations/audio1.mp3';
+import { Link, useLocalSearchParams } from "expo-router";
+import { Pressable, Text, View } from "react-native";
+import Slider from '@react-native-community/slider';
 
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 
 export default function MeditationDetails() {
@@ -19,7 +19,9 @@ export default function MeditationDetails() {
 
     const { top } = useSafeAreaInsets()
     const meditation = meditations.find(m => m.id === Number(id));
-    const formatSeconds = (milliseconds: number) => {
+    const formatSeconds = (milliseconds?: number) => {
+        if (!milliseconds || milliseconds < 0) return '0:00';
+        milliseconds = milliseconds *1000;
         const minutes = Math.floor(milliseconds / 60000);
         const seconds = Math.floor((milliseconds % 60000) / 1000);
         return `${minutes}:${seconds.toString().padStart(2, '0')}`;
@@ -49,14 +51,14 @@ export default function MeditationDetails() {
                 </View>
                 {/* Play/Pause Button */}
                 <Pressable
-                    //   onPress={() => (player.playing ? player.pause() : player.play())}
+                    onPress={() => (player.playing ? player.pause() : player.play())}
                     className="bg-zinc-800 self-center w-20 aspect-square rounded-full items-center justify-center"
                 >
                     <FontAwesome6
                         name=
-                        // {status.playing ? 
-                        'pause'
-                        // : 'play'}
+                        {status.playing ?
+                            'pause'
+                            : 'play'}
                         size={24}
                         color="snow"
                     />
@@ -74,22 +76,25 @@ export default function MeditationDetails() {
                             />
                         </View>
                         {/* Playback indicator */}
-                        {/* <Slider
-              style={{ width: '100%', height: 3 }}
-              value={status.currentTime / status.duration}
-              onSlidingComplete={(value) =>
-                player.seekTo(value * status.duration)
-              }
-              minimumValue={0}
-              maximumValue={1}
-              maximumTrackTintColor="#3A393755"
-              minimumTrackTintColor="#3A3937"
-              thumbTintColor="#3A3937"
-            /> */}
+                        <Slider
+                            style={{ width: '100%', height: 3 }}
+                            value={status.currentTime / status.duration}
+                            onSlidingComplete={(value) =>
+                                player.seekTo(value * status.duration)
+                                
+                            }
+                            minimumValue={0}
+                            maximumValue={1}
+                            maximumTrackTintColor="#3A393755"
+                            minimumTrackTintColor="#3A3937"
+                            thumbTintColor="#3A3937"
+                        />
                         {/* Times */}
                         <View className="flex-row justify-between">
-                            <Text>{formatSeconds(status.currentTime)}</Text>
-                            <Text>{formatSeconds(status.duration)}</Text>
+                            <Text> {status.duration ? formatSeconds(status.currentTime) : '--:--'}</Text>
+                            <Text>
+                                {status.duration ? formatSeconds(status.duration) : '--:--'}
+                            </Text>
                         </View>
                     </View>
                 </View>
