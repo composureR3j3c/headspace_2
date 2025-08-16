@@ -10,6 +10,7 @@ import Slider from '@react-native-community/slider';
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import AnimatedBackground from '@/app/components/AnimatedBackground';
 
 
 export default function MeditationDetails() {
@@ -30,7 +31,8 @@ export default function MeditationDetails() {
         return <Text className="text-2xl font-bold p-5 bg-white">Meditation not found</Text>;
     }
     return (
-        <SafeAreaView className="flex-1 bg-orange-400 ">
+        <SafeAreaView className="flex-1 bg-gray-400 p-2 justify-between">
+            <AnimatedBackground />
             {/* Page content */}
             <View className="flex-1">
 
